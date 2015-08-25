@@ -156,6 +156,14 @@
 ]]>
         </Details>
     </Detector>
+    <Detector class="cn.hongsong.findbugs.plugin.FindUnusedMethods">
+        <Details>
+            <![CDATA[
+<p> 项目内未被调用的方法.
+</p>
+]]>
+        </Details>
+    </Detector>
     <BugPattern type="HS_LOOP_SQL">
         <ShortDescription>在循环中调用数据库连接,严重影响性能.</ShortDescription>
         <LongDescription>在代码({1})中,在循环中调用数据库连接,严重影响性能.</LongDescription>
@@ -177,13 +185,13 @@
         </Details>
     </BugPattern>
     
-        <!--    <BugPattern type="HS_UNUSED_METHOD">
-            <ShortDescription>未使用到的方法.</ShortDescription>
-            <LongDescription>方法"{1}"在整个项目中都没有被使用到.</LongDescription>
-            <Details>
+    <BugPattern type="HS_UNUSED_METHOD">
+        <ShortDescription>未使用到的方法.</ShortDescription>
+        <LongDescription>方法"{1}"在整个项目中都没有被使用到.</LongDescription>
+        <Details>
             <![CDATA[<p>
             建议删除此方法.
             </p>]]>
-            </Details>
-        </BugPattern>-->
+        </Details>
+    </BugPattern>
 </MessageCollection>

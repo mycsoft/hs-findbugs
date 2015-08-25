@@ -4,7 +4,6 @@
           provider="Hongsong FindBugs Plugin" website="http://findbugs.sourceforge.net">
     <!--<Detector class="cn.hongsong.findbugs.plugin.HelloFindRunInvocations" speed="fast" />--> 
     <BugCode abbrev="HS" cweid="600"/>
-    <!--<BugPattern abbrev="HS" type="HS_UNUSED_METHOD" category="PERFORMANCE" cweid="601"/>--> 
     
     <Detector class="cn.hongsong.findbugs.plugin.FindServiceSQL" speed="fast" />
     <BugPattern abbrev="HS" type="HS_SERVICE_SQL" category="CORRECTNESS" />
@@ -30,5 +29,8 @@
     <Detector class="cn.hongsong.findbugs.plugin.FindInvokeSqlInLoop" speed="moderate" />
     <BugPattern abbrev="HS" type="HS_LOOP_SQL" category="Performace" />
     
-    <BugPattern abbrev="HS" type="HS_ACTION_INVOKE_DAO" category="PERFORMANCE" cweid="601"/> 
+    <BugPattern abbrev="HS" type="HS_ACTION_INVOKE_DAO" category="PERFORMANCE"/> 
+    
+    <!--<Detector class="cn.hongsong.findbugs.plugin.FindUnusedMethods" speed="moderate" />-->
+    <BugPattern abbrev="HS" type="HS_UNUSED_METHOD" category="PERFORMANCE"/> 
 </FindbugsPlugin>
