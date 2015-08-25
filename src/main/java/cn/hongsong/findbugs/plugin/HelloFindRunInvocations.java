@@ -9,7 +9,7 @@ import edu.umd.cs.findbugs.BugReporter;
 import org.apache.bcel.classfile.Method;
 
 /**
- *
+ * Sample
  * @author MaYichao
  */
 public class HelloFindRunInvocations extends AbstractFindbugsPlugin {
@@ -24,27 +24,29 @@ public class HelloFindRunInvocations extends AbstractFindbugsPlugin {
 //        bugAccumulator = new BugAccumulator(bugReporter);
     }
 
-//    @Override
-//    public void visit(Method obj) {
-//        //标记方法表待检查清单中.
-//        MethodInfo mi = new MethodInfo();
-//        mi.method = obj;
-//
-//        mi.className = getClassContext().getJavaClass().getClassName();
-////        methodInfoList.put(mi.getMethodFullName(), mi);
-//        super.visit(obj);
-//
-//    }
+    @Override
+    public void visit(Method obj) {
+        //标记方法表待检查清单中.
+        MethodInfo mi = new MethodInfo();
+        mi.method = obj;
+
+        mi.className = getClassContext().getJavaClass().getClassName();
+//        methodInfoList.put(mi.getMethodFullName(), mi);
+        reportBug("HS_UNUSED_METHOD", HIGH_PRIORITY);
+        super.visit(obj);
+
+    }
 //    @Override
 //    public void visitClassContext(ClassContext classContext) {
 //        classContext.getJavaClass().accept(this);
 //    }
+    
     @Override
     public void report() {
         //        super.report(); //To change body of generated methods, choose Tools | Templates.
 //        bugReporter.reportBug(new BugInstance("HS_UNUSED_METHOD", HIGH_PRIORITY).addClassAndMethod(this).addSourceLine(this));
 //        bugAccumulator.accumulateBug(new BugInstance("HS_UNUSED_METHOD", HIGH_PRIORITY).addClassAndMethod(this).addSourceLine(this), this);
-        reportBug("HS_UNUSED_METHOD", HIGH_PRIORITY);
+//        reportBug("HS_UNUSED_METHOD", HIGH_PRIORITY);
     }
 
 //    @Override

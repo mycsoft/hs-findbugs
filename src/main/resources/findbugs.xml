@@ -2,8 +2,33 @@
           pluginid="cn.hongsong.findbugs.plugin"
           defaultenabled="true"
           provider="Hongsong FindBugs Plugin" website="http://findbugs.sourceforge.net">
-    <Detector class="cn.hongsong.findbugs.plugin.HelloFindRunInvocations" speed="fast" /> 
-    <Detector class="cn.hongsong.findbugs.plugin.FindRunInvocations" speed="fast"/>
+    <!--<Detector class="cn.hongsong.findbugs.plugin.HelloFindRunInvocations" speed="fast" />--> 
     <BugCode abbrev="HS" cweid="600"/>
-    <BugPattern abbrev="HS" type="HS_UNUSED_METHOD" category="PERFORMANCE" cweid="601"/> 
+    <!--<BugPattern abbrev="HS" type="HS_UNUSED_METHOD" category="PERFORMANCE" cweid="601"/>--> 
+    
+    <Detector class="cn.hongsong.findbugs.plugin.FindServiceSQL" speed="fast" />
+    <BugPattern abbrev="HS" type="HS_SERVICE_SQL" category="CORRECTNESS" />
+    
+    <Detector class="cn.hongsong.findbugs.plugin.FindSysOutPrint" speed="fast" />
+    <BugPattern abbrev="HS" type="HS_SYSTEM_OUT_PRINT" category="CORRECTNESS" />
+    
+    <Detector class="cn.hongsong.findbugs.plugin.FindExceptionPrint" speed="fast" />
+    <BugPattern abbrev="HS" type="HS_EXCEPTION_PRINT" category="CORRECTNESS" />
+
+    <Detector class="cn.hongsong.findbugs.plugin.FindAccError" speed="moderate" />
+    <BugPattern abbrev="HS" type="HS_PRJACC_UNSUMMED" category="CORRECTNESS" />
+
+    <Detector class="cn.hongsong.findbugs.plugin.FindMoreReturn" speed="fast" />
+    <BugPattern abbrev="HS" type="HS_MORE_RETURN" category="CORRECTNESS" />
+
+    <Detector class="cn.hongsong.findbugs.plugin.FindThrowException" speed="fast" />
+    <BugPattern abbrev="HS" type="HS_ERROR_EXCEPTION" category="CORRECTNESS" />
+
+    <Detector class="cn.hongsong.findbugs.plugin.FindMoreLoop" speed="fast" />
+    <BugPattern abbrev="HS" type="HS_MORE_LOOP" category="CORRECTNESS" />
+
+    <Detector class="cn.hongsong.findbugs.plugin.FindInvokeSqlInLoop" speed="moderate" />
+    <BugPattern abbrev="HS" type="HS_LOOP_SQL" category="Performace" />
+    
+    <BugPattern abbrev="HS" type="HS_ACTION_INVOKE_DAO" category="PERFORMANCE" cweid="601"/> 
 </FindbugsPlugin>

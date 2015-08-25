@@ -4,37 +4,186 @@
     
     <Plugin>
         <ShortDescription>红松代码检查插件</ShortDescription>
-        <Details>Provides detectors as part of the FindBugs detector plugin tutorial.</Details>
+        <Details>检查红松项目的代码规范.</Details>
     </Plugin>
-    <Detector class="cn.hongsong.findbugs.plugin.HelloFindRunInvocations"> 
+    <BugCode abbrev="HS">红松代码检查器</BugCode>
+    <!--    <Detector class="cn.hongsong.findbugs.plugin.HelloFindRunInvocations"> 
         <Details> 
  <![CDATA[ 
  hongsong 
  ]]> 
         </Details> 
-    </Detector> 
-    <Detector class="cn.hongsong.findbugs.plugin.FindRunInvocations">
-    <Details>
-<![CDATA[
-<p> hongsong.</p>
+    </Detector> -->
+    
+    <Detector class="cn.hongsong.findbugs.plugin.FindServiceSQL">
+        <Details>
+            <![CDATA[
+<p> Service代码中,直接调用SQL语句,会引起扩展性问题.</p>
 ]]>
-    </Details>
-  </Detector>
-    <BugPattern type="HS_UNUSED_METHOD">
-<!--        <ShortDescription>未使用到的方法.</ShortDescription>
-        <LongDescription>方法"{1}"在整个项目中都没有被使用到.</LongDescription>
+        </Details>
+    </Detector>
+    <BugPattern type="HS_SERVICE_SQL">
+        <ShortDescription>在非Dao中发现SQL语句</ShortDescription>
+        <LongDescription>在类({1})中发现SQL语句</LongDescription>
         <Details>
-        <![CDATA[<p>
-        建议删除此方法.
-        </p>]]>
-        </Details>-->
-        <ShortDescription>Hs not used method</ShortDescription>
-        <LongDescription>Method"{1}" has no invoker.</LongDescription>
-        <Details>
-        <![CDATA[<p>
-        delete it now!
-        </p>]]>
+            <![CDATA[
+<p> 在Action,Form,Service等非Dao代码中,直接调用SQL语句,会引起扩展性问题.</p>
+]]>
         </Details>
     </BugPattern>
-    <BugCode abbrev="HS">红松代码检查器</BugCode>
+
+
+    <Detector class="cn.hongsong.findbugs.plugin.FindSysOutPrint">
+        <Details>
+            <![CDATA[
+<p>检查代码中是否使用了System.out.println()</p>
+]]>
+        </Details>
+    </Detector>
+    <BugPattern type="HS_SYSTEM_OUT_PRINT">
+        <ShortDescription>在代码中使用了System.out.println</ShortDescription>
+        <LongDescription>在代码({1})中使用了System.out.println</LongDescription>
+        <Details>
+            <![CDATA[
+<p> 在代码中使用了System.out.println.应当使用日志方式.如log.info("......")</p>
+]]>
+        </Details>
+    </BugPattern>
+
+    <Detector class="cn.hongsong.findbugs.plugin.FindExceptionPrint">
+        <Details>
+            <![CDATA[
+<p>检查代码中是否将异常直接输出.</p>
+]]>
+        </Details>
+    </Detector>
+    <BugPattern type="HS_EXCEPTION_PRINT">
+        <ShortDescription>在代码中将异常直接输出.</ShortDescription>
+        <LongDescription>在代码({1})中将异常直接输出.</LongDescription>
+        <Details>
+            <![CDATA[
+            <p>代码中将异常直接输出.如ex.printStackTrace().
+            <br>应当使用日志方式.如log.warning("......",ex);
+            </p>
+]]>
+        </Details>
+    </BugPattern>
+    <Detector class="cn.hongsong.findbugs.plugin.FindAccError">
+        <Details>
+            <![CDATA[
+<p>检查代码中使用项目台帐时是否正确触发汇总.</p>
+]]>
+        </Details>
+    </Detector>
+    <BugPattern type="HS_PRJACC_UNSUMMED">
+        <ShortDescription>使用项目台帐时,未正确触发汇总.</ShortDescription>
+        <LongDescription>在代码({1})中调用了项目台帐的方法,但未触发汇总.</LongDescription>
+        <Details>
+            <![CDATA[
+            <p>代码中如调用到创建项目台帐的方法.
+            <br>应当在其后调用相应的汇总方法.PrjAccService.sumPrjAcc();
+            </p>
+]]>
+        </Details>
+    </BugPattern>
+    <Detector class="cn.hongsong.findbugs.plugin.FindMoreReturn">
+        <Details>
+            <![CDATA[
+<p> 方法中使用了了过多的return.</p>
+]]>
+        </Details>
+    </Detector>
+    <BugPattern type="HS_MORE_RETURN">
+        <ShortDescription>方法中使用了了过多的return.</ShortDescription>
+        <LongDescription>在代码({1})中使用了了过多的return.</LongDescription>
+        <Details>
+            <![CDATA[
+            <p>一个方法中尽量只使用一个返回语句.
+            </p>
+]]>
+        </Details>
+    </BugPattern>
+
+    <Detector class="cn.hongsong.findbugs.plugin.FindThrowException">
+        <Details>
+            <![CDATA[
+<p> 方法中只能在Service与Action中抛出异常.且只能抛出指定的系统内的异常.
+<br>如:
+<br>throw new ServiceException(GlobalExceptions.NAME_EXIST,
+<br>new Object[]{"基础数据分类"});
+</p>
+]]>
+        </Details>
+    </Detector>
+    <BugPattern type="HS_ERROR_EXCEPTION">
+        <ShortDescription>异常使用错误</ShortDescription>
+        <LongDescription>在代码({1})中使用异常的方式错误.</LongDescription>
+        <Details>
+            <![CDATA[
+<p> 方法中只能在Service与Action中抛出异常.且只能抛出指定的系统内的异常.
+<br>如:
+<br>throw new ServiceException(GlobalExceptions.NAME_EXIST,
+<br>new Object[]{"基础数据分类"});
+</p>
+]]>
+        </Details>
+    </BugPattern>
+
+    <Detector class="cn.hongsong.findbugs.plugin.FindMoreLoop">
+        <Details>
+            <![CDATA[
+<p> 代码中循环嵌套不可以超过3层.
+</p>
+]]>
+        </Details>
+    </Detector>
+    <BugPattern type="HS_MORE_LOOP">
+        <ShortDescription>代码中循环嵌套不可以超过3层.</ShortDescription>
+        <LongDescription>在代码({1})中使用了超过3层的循环嵌套.</LongDescription>
+        <Details>
+            <![CDATA[
+<p> 代码中循环嵌套不可以超过3层.这对代码的可读性,与程序的性能都有很大的影响.
+</p>
+]]>
+        </Details>
+    </BugPattern>
+
+    <Detector class="cn.hongsong.findbugs.plugin.FindInvokeSqlInLoop">
+        <Details>
+            <![CDATA[
+<p> 在循环中调用数据库连接,严重影响性能.
+</p>
+]]>
+        </Details>
+    </Detector>
+    <BugPattern type="HS_LOOP_SQL">
+        <ShortDescription>在循环中调用数据库连接,严重影响性能.</ShortDescription>
+        <LongDescription>在代码({1})中,在循环中调用数据库连接,严重影响性能.</LongDescription>
+        <Details>
+            <![CDATA[
+<p> 在循环中调用数据库连接,严重影响性能.
+</p>
+]]>
+        </Details>
+    </BugPattern>
+    <BugPattern type="HS_ACTION_INVOKE_DAO">
+        <ShortDescription>在Controller中不可以直接调用Dao.</ShortDescription>
+        <LongDescription>在代码({1})中,调用了Dao方法,破坏了代码结构.应该通过对应Service方法进行调用.</LongDescription>
+        <Details>
+            <![CDATA[
+<p> Controller调用了Dao方法,破坏了代码结构.应该通过对应Service方法进行调用.
+</p>
+]]>
+        </Details>
+    </BugPattern>
+    
+        <!--    <BugPattern type="HS_UNUSED_METHOD">
+            <ShortDescription>未使用到的方法.</ShortDescription>
+            <LongDescription>方法"{1}"在整个项目中都没有被使用到.</LongDescription>
+            <Details>
+            <![CDATA[<p>
+            建议删除此方法.
+            </p>]]>
+            </Details>
+        </BugPattern>-->
 </MessageCollection>
