@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<MessageCollection>
+    
+    <Plugin>
+        <ShortDescription>红松代码检查插件</ShortDescription>
+        <Details>Provides detectors as part of the FindBugs detector plugin tutorial.</Details>
+    </Plugin>
+    <Detector class="cn.hongsong.findbugs.plugin.HelloFindRunInvocations"> 
+        <Details> 
+ <![CDATA[ 
+ hongsong 
+ ]]> 
+        </Details> 
+    </Detector> 
+    <Detector class="cn.hongsong.findbugs.plugin.FindRunInvocations">
+    <Details>
+<![CDATA[
+<p> hongsong.</p>
+]]>
+    </Details>
+  </Detector>
+    <BugPattern type="HS_UNUSED_METHOD">
+<!--        <ShortDescription>未使用到的方法.</ShortDescription>
+        <LongDescription>方法"{1}"在整个项目中都没有被使用到.</LongDescription>
+        <Details>
+        <![CDATA[<p>
+        建议删除此方法.
+        </p>]]>
+        </Details>-->
+        <ShortDescription>Hs not used method</ShortDescription>
+        <LongDescription>Method"{1}" has no invoker.</LongDescription>
+        <Details>
+        <![CDATA[<p>
+        delete it now!
+        </p>]]>
+        </Details>
+    </BugPattern>
+    <BugCode abbrev="HS">红松代码检查器</BugCode>
+</MessageCollection>

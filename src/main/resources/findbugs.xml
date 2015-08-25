@@ -1,0 +1,9 @@
+<FindbugsPlugin
+          pluginid="cn.hongsong.findbugs.plugin"
+          defaultenabled="true"
+          provider="Hongsong FindBugs Plugin" website="http://findbugs.sourceforge.net">
+    <Detector class="cn.hongsong.findbugs.plugin.HelloFindRunInvocations" speed="fast" /> 
+    <Detector class="cn.hongsong.findbugs.plugin.FindRunInvocations" speed="fast"/>
+    <BugCode abbrev="HS" cweid="600"/>
+    <BugPattern abbrev="HS" type="HS_UNUSED_METHOD" category="PERFORMANCE" cweid="601"/> 
+</FindbugsPlugin>

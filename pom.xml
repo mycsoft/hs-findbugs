@@ -12,4 +12,11 @@
     </properties>
     <name>红松代码检查插件</name>
     <description>红松代码检查插件.针对红松特定的代码规范进行检查.</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>findbugs</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+    </dependencies>
 </project>
