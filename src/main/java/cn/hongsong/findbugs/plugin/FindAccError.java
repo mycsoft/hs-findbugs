@@ -10,6 +10,7 @@ import org.apache.bcel.classfile.Method;
 /**
  * 检查项目台帐的引用是否都正常调用了汇总方法.
  * @author MaYichao
+ * @since 1.0.0
  */
 public class FindAccError extends AbstractFindbugsPlugin {
 

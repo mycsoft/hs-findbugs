@@ -8,8 +8,9 @@ import edu.umd.cs.findbugs.BugReporter;
 import org.apache.bcel.classfile.Method;
 
 /**
- *
+ * 检查循环过多的错误.
  * @author MaYichao
+ * @since 1.0.0
  */
 public class FindMoreLoop extends AbstractFindbugsPlugin {
 

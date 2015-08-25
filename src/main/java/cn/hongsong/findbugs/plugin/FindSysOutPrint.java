@@ -10,6 +10,7 @@ import edu.umd.cs.findbugs.BugReporter;
  * 检查代码中使用System.out.print的地方.
  *
  * @author Ma Yichao
+ * @since 1.0.0
  */
 public class FindSysOutPrint extends AbstractFindbugsPlugin {
 

@@ -10,6 +10,7 @@ import org.apache.bcel.classfile.Method;
 /**
  *检查一个方法中,不可以有过多的return.
  * @author MaYichao
+ * @since 1.0.0
  */
 public class FindMoreReturn extends AbstractFindbugsPlugin {
 

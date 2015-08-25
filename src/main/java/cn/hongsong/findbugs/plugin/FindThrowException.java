@@ -10,6 +10,7 @@ import org.apache.bcel.classfile.Method;
 /**
  * 检查所有的异常是否都按规定抛出
  * @author MaYichao
+ * @since 1.0.0
  */
 public class FindThrowException extends AbstractFindbugsPlugin {
 

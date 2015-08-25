@@ -11,6 +11,7 @@ import org.apache.bcel.classfile.Method;
 /**
  * Sample
  * @author MaYichao
+ * @since 1.0.0
  */
 public class HelloFindRunInvocations extends AbstractFindbugsPlugin {
 

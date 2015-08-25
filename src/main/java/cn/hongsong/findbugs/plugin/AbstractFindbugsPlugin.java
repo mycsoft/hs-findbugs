@@ -14,8 +14,9 @@ import java.util.Date;
 import org.apache.bcel.classfile.Method;
 
 /**
- * Findbugs 抽像类
+ * Findbugs插件基类.
  * @author Ma Yichao
+ * @since 1.0.0
  */
 public abstract class AbstractFindbugsPlugin extends BytecodeScanningDetector implements StatelessDetector {
     /** 日志对象 */

@@ -10,6 +10,7 @@ import edu.umd.cs.findbugs.ba.Hierarchy;
 /**
  * 检查代码中将Exception未经日志系统输出的地方.
  * @author Ma Yichao
+ * @since 1.0.0
  */
 public class FindExceptionPrint extends AbstractFindbugsPlugin {
 

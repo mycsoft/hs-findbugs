@@ -13,6 +13,7 @@ import org.apache.bcel.classfile.Method;
  * 检查是否有从循环中调用数据库操作.
  *
  * @author MaYichao
+ * @since 1.0.0
  */
 public class FindInvokeSqlInLoop extends AbstractFindbugsPlugin {
 
