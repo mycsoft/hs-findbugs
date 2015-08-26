@@ -22,10 +22,13 @@ import static cn.hongsong.findbugs.FindBugsPluginUtils.*;
  */
 public class FindErrorInvokeDao extends AbstractFindbugsPlugin {
 
-    private static java.util.logging.Logger log = java.util.logging.Logger.getLogger(FindErrorInvokeDao.class.getName());
+    private final static java.util.logging.Logger log2 = java.util.logging.Logger.getLogger(FindErrorInvokeDao.class.getName());
 
+    /**
+     * 需要忽略的基类. 暂时只排除了实现IService接口的类.
+     */
     private static final String[] IGNORE_CLASS_NAME_LIST = new String[]{
-        "/cn/howso/service/IService",
+        //        "/cn/howso/service/IService",
         "cn.howso.service.IService"
 //        "cn.howso.service.impl.ServiceImpl"
     };
@@ -74,7 +77,7 @@ public class FindErrorInvokeDao extends AbstractFindbugsPlugin {
             try {
                 daoClass = Repository.lookupClass("cn.howso.dao.SpringMybatisDao");
             } catch (ClassNotFoundException ex) {
-                log.log(Level.SEVERE, null, ex);
+                log2.log(Level.SEVERE, null, ex);
             }
         }
         return daoClass;
@@ -102,7 +105,7 @@ public class FindErrorInvokeDao extends AbstractFindbugsPlugin {
                         JavaClass c = Repository.lookupClass(name);
                         ignoreClassList.add(c);
                     } catch (ClassNotFoundException ex) {
-                        log.log(Level.SEVERE, null, ex);
+                        log2.log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -113,14 +116,14 @@ public class FindErrorInvokeDao extends AbstractFindbugsPlugin {
                         break;
                     }
                 } catch (ClassNotFoundException ex) {
-                    log.log(Level.SEVERE, String.format("%s.implementationOf(%s) failed!", thisJC.getClassName(), jc.getClassName()), ex);
+                    log2.log(Level.SEVERE, String.format("%s.implementationOf(%s) failed!", thisJC.getClassName(), jc.getClassName()), ex);
                 }
             }
             if (!ignore) {
                 try {
                     ignore = thisJC.implementationOf(initDaoClass());
                 } catch (ClassNotFoundException ex) {
-                    log.log(Level.SEVERE, String.format("%s.implementationOf(%s) failed!", thisJC.getClassName(), initDaoClass().getClassName()), ex);
+                    log2.log(Level.SEVERE, String.format("%s.implementationOf(%s) failed!", thisJC.getClassName(), initDaoClass().getClassName()), ex);
 
                 }
             }
@@ -154,16 +157,18 @@ public class FindErrorInvokeDao extends AbstractFindbugsPlugin {
 //                    System.out.println("==2" + className);
                     //test
 //                    className = "cn.howso.dao.mapper.CompanyUserinfoMapper";
-
-                    JavaClass calledClass = Repository.lookupClass(className);
-                    if (calledClass.implementationOf(daoClass)) {
-                        System.out.println(String.format("|%d|%s call %s", seen, getDottedClassName(), className));
-                        reportBug("HS_ACTION_INVOKE_DAO", HIGH_PRIORITY);
+                    if (className.startsWith(getTOP_PACKAGE())) {
+                        //只处理包内的类.
+                        JavaClass calledClass = Repository.lookupClass(className);
+                        if (calledClass.implementationOf(daoClass)) {
+//                            System.out.println(String.format("|%d|%s call %s", seen, getDottedClassName(), className));
+                            reportBug("HS_ILLEGAL_CALL_DAO", HIGH_PRIORITY);
+                        }
                     }
                 } catch (Exception ex) {
 //                    java.util.logging.Logger.getLogger(FindErrorInvokeDao.class.getName()).log(Level.SEVERE, null, ex);
 //                    ex.printStackTrace();
-                    log.log(Level.WARNING, "check " + className, ex);
+                    log2.log(Level.WARNING, String.format("check|%d|%s", seen, getDottedClassName(), className), ex);
                 }
 
                 break;
