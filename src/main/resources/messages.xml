@@ -174,8 +174,8 @@
 ]]>
         </Details>
     </BugPattern>
-    <BugPattern type="HS_ACTION_INVOKE_DAO">
-        <ShortDescription>在Controller中不可以直接调用Dao.</ShortDescription>
+    <BugPattern type="HS_ILLEGAL_CALL_DAO">
+        <ShortDescription>非法的Dao调用.</ShortDescription>
         <LongDescription>在代码({1})中,调用了Dao方法,破坏了代码结构.应该通过对应Service方法进行调用.</LongDescription>
         <Details>
             <![CDATA[

@@ -30,7 +30,7 @@
     <BugPattern abbrev="HS" type="HS_LOOP_SQL" category="PERFORMANCE" />
     
     <Detector class="cn.hongsong.findbugs.plugin.FindErrorInvokeDao" speed="fast" />
-    <BugPattern abbrev="HS" type="HS_ACTION_INVOKE_DAO" category="CORRECTNESS"/> 
+    <BugPattern abbrev="HS" type="HS_ILLEGAL_CALL_DAO" category="CORRECTNESS"/> 
     
     <BugPattern abbrev="HS" type="HS_UNUSED_METHOD" category="PERFORMANCE"/> 
 </FindbugsPlugin>
