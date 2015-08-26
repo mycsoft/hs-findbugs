@@ -179,7 +179,7 @@
         <LongDescription>在代码({1})中,调用了Dao方法,破坏了代码结构.应该通过对应Service方法进行调用.</LongDescription>
         <Details>
             <![CDATA[
-<p> Controller调用了Dao方法,破坏了代码结构.应该通过对应Service方法进行调用.
+<p> 非法调用了Dao方法,破坏了代码结构.应该通过对应Service方法进行调用.
 </p>
 ]]>
         </Details>
