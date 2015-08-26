@@ -15,7 +15,7 @@ import org.apache.bcel.classfile.Method;
 public class FindThrowException extends AbstractFindbugsPlugin {
 
     /** ServiceException */
-    private static final String EXCEPTION_NAME = "cn.com.jsepc.epii.framework.exception.ServiceException";
+    private static final String EXCEPTION_NAME = "cn.howso.exception.BusinessException";
     /** 记录上一句带入的是否是正确的异常 */
     private boolean lastIsException = false;
     /** 记录上一行的内容 */
