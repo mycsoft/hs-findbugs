@@ -194,4 +194,12 @@
             </p>]]>
         </Details>
     </BugPattern>
+    <Detector class="cn.hongsong.findbugs.plugin.FindErrorInvokeDao">
+        <Details>
+            <![CDATA[
+<p> 错误的Dao调用方式.Dao只能被Service层之后的代码调用.
+</p>
+]]>
+        </Details>
+    </Detector>
 </MessageCollection>

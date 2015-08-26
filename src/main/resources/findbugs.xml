@@ -27,10 +27,10 @@
     <BugPattern abbrev="HS" type="HS_MORE_LOOP" category="CORRECTNESS" />
 
     <Detector class="cn.hongsong.findbugs.plugin.FindInvokeSqlInLoop" speed="moderate" />
-    <BugPattern abbrev="HS" type="HS_LOOP_SQL" category="Performace" />
+    <BugPattern abbrev="HS" type="HS_LOOP_SQL" category="PERFORMANCE" />
     
-    <BugPattern abbrev="HS" type="HS_ACTION_INVOKE_DAO" category="PERFORMANCE"/> 
+    <Detector class="cn.hongsong.findbugs.plugin.FindErrorInvokeDao" speed="fast" />
+    <BugPattern abbrev="HS" type="HS_ACTION_INVOKE_DAO" category="CORRECTNESS"/> 
     
-    <!--<Detector class="cn.hongsong.findbugs.plugin.FindUnusedMethods" speed="moderate" />-->
     <BugPattern abbrev="HS" type="HS_UNUSED_METHOD" category="PERFORMANCE"/> 
 </FindbugsPlugin>
