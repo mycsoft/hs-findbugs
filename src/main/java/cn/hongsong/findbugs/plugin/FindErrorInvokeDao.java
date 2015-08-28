@@ -32,8 +32,27 @@ public class FindErrorInvokeDao extends AbstractFindbugsPlugin {
         "cn.howso.service.IService"
 //        "cn.howso.service.impl.ServiceImpl"
     };
+
+    /**
+     * dao 基类名
+     */
+    private static final String DAO_CLASS_NAME = "cn.howso.dao.SpringMybatisDao";
+    /**
+     * 忽略的基类列表
+     * @see #IGNORE_CLASS_NAME_LIST
+     */
     private static List<JavaClass> ignoreClassList;
+
+    /**
+     * Dao基类.
+     * @see #DAO_CLASS_NAME
+     */
     private static JavaClass daoClass;
+
+    /**
+     * 是否初始化过.
+     */
+    private static boolean inited = false;
 
     public FindErrorInvokeDao(BugReporter br) {
         super(br);
@@ -53,32 +72,17 @@ public class FindErrorInvokeDao extends AbstractFindbugsPlugin {
             return;
         }
 
-//        System.out.println("visit class " + getClassName());
-        //ServiceBean
         super.visitClassContext(classContext);
-//        classContext.getJavaClass().accept(this);
-//        String name = classContext.getJavaClass().getClassName();
-//        if (name.startsWith("cn.howso.service.")) {
-//            System.out.println("======" + name);
-//        }
-    }
-
-    @Override
-    public void sawClass() {
-//        if (isIgnoreClass(getClassContext())) {
-//            return;
-//        }
-//        System.out.println("sawClass " + getClassName());
-        super.sawClass(); //To change body of generated methods, choose Tools | Templates.
     }
 
     private JavaClass initDaoClass() {
-        if (daoClass == null) {
+        if (!inited && daoClass == null) {
             try {
-                daoClass = Repository.lookupClass("cn.howso.dao.SpringMybatisDao");
+                daoClass = Repository.lookupClass(DAO_CLASS_NAME);
             } catch (ClassNotFoundException ex) {
-                log2.log(Level.SEVERE, null, ex);
+                log2.log(Level.INFO, "系统中找不到dao基础类:" + DAO_CLASS_NAME, ex);
             }
+            inited = true;
         }
         return daoClass;
     }
@@ -101,7 +105,6 @@ public class FindErrorInvokeDao extends AbstractFindbugsPlugin {
                 ignoreClassList = new ArrayList<>();
                 for (String name : IGNORE_CLASS_NAME_LIST) {
                     try {
-//                    JavaClass c = AnalysisContext.lookupSystemClass(name);
                         JavaClass c = Repository.lookupClass(name);
                         ignoreClassList.add(c);
                     } catch (ClassNotFoundException ex) {
@@ -128,7 +131,6 @@ public class FindErrorInvokeDao extends AbstractFindbugsPlugin {
                 }
             }
         }
-//        ignore = !thisJC.getClassName().equalsIgnoreCase("cn.howso.controller.CoLoginController");
         return ignore;
     }
 
@@ -147,7 +149,6 @@ public class FindErrorInvokeDao extends AbstractFindbugsPlugin {
             case INVOKESTATIC_QUICK:
             case INVOKEINTERFACE_QUICK:
             case INVOKEVIRTUALOBJECT_QUICK:
-//            if (getDottedClassConstantOperand().equals(className)) {
 
                 //记录方法为已调用.
                 String className = "none";
