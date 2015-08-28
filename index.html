@@ -25,6 +25,31 @@
 <p>红松代码检查器-Findbugs,是专用于红松平台开发的代码检查工具.本工具基于Findbugs 3.0.1进行开发.</p>
 
 <h1>
+<a id="maven配置使用范例" class="anchor" href="#maven%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E8%8C%83%E4%BE%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>Maven配置使用范例</h1>
+
+<blockquote>
+<p><code>&lt;plugins&gt;</code><br>
+<code></code><code>&lt;plugin&gt;</code><br>
+<code></code><code></code><code>&lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;</code><br>
+<code></code><code></code><code>&lt;artifactId&gt;findbugs-maven-plugin&lt;/artifactId&gt;</code><br>
+<code></code><code></code><code>&lt;version&gt;3.0.2&lt;/version&gt;</code><br>
+<code></code><code></code><code>&lt;configuration&gt;</code><br>
+<code></code><code></code><code></code><code></code><code>&lt;encoding&gt;utf-8&lt;/encoding&gt;</code><br>
+<code></code><code></code><code></code><code></code><strong><code>&lt;plugins&gt;</code></strong><br>
+<code></code><code></code><code></code><code></code><code></code><code></code><strong><code>&lt;plugin&gt;</code></strong><br>
+<code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><strong><code>&lt;groupId&gt;cn.hongsong&lt;/groupId&gt;</code></strong><br>
+<code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><strong><code>&lt;artifactId&gt;hs-findbugs&lt;/artifactId&gt;</code></strong><br>
+<code></code><code></code><code></code><code></code><code></code><code></code><code></code><code></code><strong><code>&lt;version&gt;1.0.2&lt;/version&gt;</code></strong><br>
+<code></code><code></code><code></code><code></code><code></code><code></code><strong><code>&lt;/plugin&gt;</code></strong><br>
+<code></code><code></code><code></code><code></code><strong><code>&lt;/plugins&gt;</code></strong><br>
+<code></code><code></code><code>&lt;/configuration&gt;</code><br>
+<code></code><code></code><code>&lt;/plugin&gt;</code><br>
+<code>&lt;/plugins&gt;</code>    </p>
+</blockquote>
+
+<hr>
+
+<h1>
 <a id="error-code" class="anchor" href="#error-code" aria-hidden="true"><span class="octicon octicon-link"></span></a>Error Code</h1>
 
 <ul>
@@ -90,6 +115,8 @@
 </li>
 <li><p><strong>HS_UNUSED_METHOD</strong>: 未使用到的方法.<em>建议删除此方法.</em></p></li>
 </ul>
+
+<hr>
 
 <h3>
 <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
