@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.hongsong</groupId>
     <artifactId>hs-findbugs</artifactId>
-    <version>1.0.1-Release</version>
+    <version>1.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,6 +12,20 @@
     </properties>
     <name>红松代码检查插件</name>
     <description>红松代码检查插件.针对红松特定的代码规范进行检查.</description>
+    
+    <distributionManagement>  
+        <repository>  
+            <id>nexus-releases</id>  
+            <name>Nexus Release Repository</name>  
+            <url>http://192.168.10.113:8081/nexus/content/repositories/releases/</url>  
+        </repository>  
+        <snapshotRepository>  
+            <id>nexus-snapshots</id>  
+            <name>Nexus Snapshot Repository</name>  
+            <url>http://192.168.10.113:8081/nexus/content/repositories/snapshots/</url>  
+        </snapshotRepository>  
+    </distributionManagement>  
+    
     <dependencies>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
