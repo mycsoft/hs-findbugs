@@ -9,17 +9,27 @@ import org.apache.bcel.classfile.Method;
 
 /**
  * 检查所有的异常是否都按规定抛出
+ *
  * @author MaYichao
  * @since 1.0.0
  */
 public class FindThrowException extends AbstractFindbugsPlugin {
 
-    /** ServiceException */
+    /**
+     * ServiceException
+     */
     private static final String EXCEPTION_NAME = "cn.howso.exception.BusinessException";
-    /** 记录上一句带入的是否是正确的异常 */
+    private static final String TAG = "HS_ERROR_EXCEPTION";
+    /**
+     * 记录上一句带入的是否是正确的异常
+     */
     private boolean lastIsException = false;
-    /** 记录上一行的内容 */
+    /**
+     * 记录上一行的内容
+     */
     private String lastLine = null;
+    private int lastSeen = 0;
+    private int lastSeen2 = 0;
 
     public FindThrowException(BugReporter br) {
         super(br);
@@ -33,10 +43,16 @@ public class FindThrowException extends AbstractFindbugsPlugin {
         //初始化参数
         lastIsException = false;
         lastLine = null;
+        lastSeen = 0;
+        lastSeen2 = 0;
         super.visit(obj);
     }
 
-    
+    @Override
+    public void sawMethod() {
+        super.sawMethod(); //To change body of generated methods, choose Tools | Templates.
+
+    }
 
     @Override
     public void sawOpcode(int seen) {
@@ -46,13 +62,14 @@ public class FindThrowException extends AbstractFindbugsPlugin {
         //TODO 现在只检查了一种唯一的调用方式.
         /* 以下这种异常检查时判断为错误的.为什么?
          * try {
-        response.getWriter().print(res);
-        } catch (IOException e) {
-        throw new ServiceException(e, GlobalExceptions.RESPONSE_IOEXCEPTION);
-        }
+         response.getWriter().print(res);
+         } catch (IOException e) {
+         throw new ServiceException(e, GlobalExceptions.RESPONSE_IOEXCEPTION);
+         }
          */
         if (seen == INVOKESPECIAL) {
             //System.out.println("[debug1]:"+lastLine);
+            lastSeen2 = seen;
             lastLine = getDottedClassConstantOperand();
             //System.out.println("[debug2]:"+lastLine);
             if (EXCEPTION_NAME.equals(lastLine)) {
@@ -60,24 +77,26 @@ public class FindThrowException extends AbstractFindbugsPlugin {
                 lastIsException = true;
             }
         } else {
-            if (seen == ATHROW) {
-                
+            if (seen == ATHROW && lastSeen == INVOKESPECIAL) {
+
                 if (!lastIsException) {
-                    //System.out.println("last line:");
-                    //System.out.println(lastLine);
-                    //System.out.println("=======================");
+                    System.out.println("=======================");
+                    System.out.println(String.format("last seen = %d,last seen2 = %d", lastSeen, lastSeen2));
+                    System.out.println(String.format("[%s#%s%s]last line[%d]:", getDottedClassName(), getMethodName(), getDottedMethodSig(), getPC()));
+                    System.out.println(lastLine);
+                    System.out.println("=======================");
                     /*有一种特殊情况,当代码中调用到XXXX.class时,编译器会自动生成一个
                      * 隐含的class$(String) 方法,在这个方法中,会自动加入一个异常捕获.
                      * 这个异常是不需要进行代码检查的.因此,要想办法排除掉这类方法中的检查.
-                    */
-                    if (!isJVMAutoCreateMethod(getMethod())){
-                        reportBug("HS_ERROR_EXCEPTION", NORMAL_PRIORITY);
+                     */
+                    if (!isJVMAutoCreateMethod(getMethod())) {
+                        reportBug(TAG, NORMAL_PRIORITY);
                     }
                 }
             }
             lastIsException = false;
         }
-
+        lastSeen = seen;
 
     }
 }
