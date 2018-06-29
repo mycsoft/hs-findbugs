@@ -89,7 +89,7 @@ public class FindThrowException extends AbstractFindbugsPlugin {
 
 //                System.out.println(i ++ +"\t|"+getMethodName()
 //                        + "|unprocessed:" + tca);
-                System.out.println("unprocessed:" + tca);
+//                System.out.println("unprocessed:" + tca);
                 reportBug(TAG, HIGH_PRIORITY, tca.catchStart);
             }
         }
