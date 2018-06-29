@@ -33,7 +33,7 @@ public class HelloFindRunInvocations extends AbstractFindbugsPlugin {
 
         mi.className = getClassContext().getJavaClass().getClassName();
 //        methodInfoList.put(mi.getMethodFullName(), mi);
-        reportBug("HS_UNUSED_METHOD", HIGH_PRIORITY);
+        reportBug("HS_UNUSED_METHOD", LOW_PRIORITY);
         super.visit(obj);
 
     }

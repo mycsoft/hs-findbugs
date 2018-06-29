@@ -1,9 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <FindbugsPlugin
-          pluginid="cn.hongsong.findbugs.plugin"
-          defaultenabled="true"
-          provider="Hongsong FindBugs Plugin" website="http://findbugs.sourceforge.net">
+    pluginid="cn.hongsong.findbugs.plugin"
+    defaultenabled="true"
+    provider="Hongsong FindBugs Plugin" website="http://mycsoft.github.io/hs-findbugs">
     <!--<Detector class="cn.hongsong.findbugs.plugin.HelloFindRunInvocations" speed="fast" />--> 
     <BugCode abbrev="HS" cweid="600"/>
+    <BugCode abbrev="HS_HIGH" cweid="6000"/>
     
     <Detector class="cn.hongsong.findbugs.plugin.FindServiceSQL" speed="fast" />
     <BugPattern abbrev="HS" type="HS_SERVICE_SQL" category="CORRECTNESS" />
@@ -12,7 +15,7 @@
     <BugPattern abbrev="HS" type="HS_SYSTEM_OUT_PRINT" category="CORRECTNESS" />
     
     <Detector class="cn.hongsong.findbugs.plugin.FindExceptionPrint" speed="fast" />
-    <BugPattern abbrev="HS" type="HS_EXCEPTION_PRINT" category="CORRECTNESS" />
+    <BugPattern abbrev="HS" type="HS_EXCEPTION_PRINT" category="CORRECTNESS" priority="high" />
 
     <Detector class="cn.hongsong.findbugs.plugin.FindAccError" speed="moderate" />
     <BugPattern abbrev="HS" type="HS_PRJACC_UNSUMMED" category="CORRECTNESS" />
@@ -29,8 +32,8 @@
     <Detector class="cn.hongsong.findbugs.plugin.FindInvokeSqlInLoop" speed="moderate" />
     <BugPattern abbrev="HS" type="HS_LOOP_SQL" category="PERFORMANCE" />
     
-    <Detector class="cn.hongsong.findbugs.plugin.FindErrorInvokeDao" speed="fast" />
-    <BugPattern abbrev="HS" type="HS_ILLEGAL_CALL_DAO" category="CORRECTNESS"/> 
+<!--    <Detector class="cn.hongsong.findbugs.plugin.FindErrorInvokeDao" speed="fast" />
+    <BugPattern abbrev="HS" type="HS_ILLEGAL_CALL_DAO" category="CORRECTNESS"/> -->
     
     <BugPattern abbrev="HS" type="HS_UNUSED_METHOD" category="PERFORMANCE"/> 
 </FindbugsPlugin>

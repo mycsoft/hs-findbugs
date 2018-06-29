@@ -132,7 +132,7 @@ public class FindUnusedMethods extends AbstractFindbugsPlugin {
         methodInfoList.clear();
         for (MethodInfo mi : unusedList) {
             System.out.println("report:" + mi.getMethodFullName());
-            bugReporter.reportBug(new BugInstance(this, "HS_UNUSED_METHOD", NORMAL_PRIORITY).addClassAndMethod(mi.method));
+            bugReporter.reportBug(new BugInstance(this, "HS_UNUSED_METHOD", LOW_PRIORITY).addClassAndMethod(mi.method));
         }
     }
 
