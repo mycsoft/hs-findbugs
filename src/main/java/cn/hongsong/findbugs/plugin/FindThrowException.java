@@ -5,12 +5,12 @@
 package cn.hongsong.findbugs.plugin;
 
 import edu.umd.cs.findbugs.BugReporter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.CodeException;
-import org.apache.bcel.classfile.LineNumber;
-import org.apache.bcel.classfile.Method;
 
 /**
  * 检查所有的异常是否都按规定抛出.
@@ -25,28 +25,28 @@ public class FindThrowException extends AbstractFindbugsPlugin {
     /**
      * ServiceException
      */
-    private static final String EXCEPTION_NAME = "cn.howso.exception.BusinessException";
+//    private static final String EXCEPTION_NAME = "cn.howso.exception.BusinessException";
     private static final String TAG = "HS_ERROR_EXCEPTION";
-    private static final String DEBUG_CLASS = "cn/hongsong/co/facade/FacadeUtil";
-    /**
-     * 记录上一句带入的是否是正确的异常
-     */
-    private boolean lastIsException = false;
-    /**
-     * 记录上一行的内容
-     */
-    private String lastLine = null;
-    private int lastSeen = 0;
-    private int lastSeen2 = 0;
+    private static final String DEBUG_CLASS = "cn/hongsong/co/facade/examServer/impl/ExamRebornFacadeImpl";
+//    /**
+//     * 记录上一句带入的是否是正确的异常
+//     */
+//    private boolean lastIsException = false;
+//    /**
+//     * 记录上一行的内容
+//     */
+//    private String lastLine = null;
+//    private int lastSeen = 0;
+//    private int lastSeen2 = 0;
+//
+////    private TryCatchArea tca = null;
+//    private int lineNumber = 0;
 
-//    private TryCatchArea tca = null;
-    private int lineNumber = 0;
-
-    private Map<Integer, TryCatchArea> tryCatchAreaMap = new HashMap<>();
-    /**
-     * 当前Try-catch区域.
-     */
-    private TryCatchArea currentTCA = null;
+    private final Map<Integer, TryCatchArea> TRY_CATCH_AREA_MAP = new HashMap<>();
+//    /**
+//     * 当前Try-catch区域.
+//     */
+//    private TryCatchArea currentTCA = null;
 
     public FindThrowException(BugReporter br) {
         super(br);
@@ -59,20 +59,23 @@ public class FindThrowException extends AbstractFindbugsPlugin {
 //    }
     private void initForVisit(Code code) {
         //初始化参数
-        lastIsException = false;
-        lastLine = null;
-        lastSeen = 0;
-        lastSeen2 = 0;
-//        tca = null;
-        lineNumber = 0;
-        tryCatchAreaMap.clear();
-        currentTCA = null;
+//        lastIsException = false;
+//        lastLine = null;
+//        lastSeen = 0;
+//        lastSeen2 = 0;
+////        tca = null;
+//        lineNumber = 0;
+        TRY_CATCH_AREA_MAP.clear();
+//        currentTCA = null;
 
         if (getMethodName().startsWith("<")) {
             //跳过内置方法.
             return;
         }
 //        System.out.println(String.format("Method is %s", getMethodName()));
+//        System.out.println("=====================================");
+//        System.out.println(code);
+//        System.out.println("*************************************");
         checkTryCatchArea(code);
     }
 
@@ -80,10 +83,10 @@ public class FindThrowException extends AbstractFindbugsPlugin {
         //如何保证此方法在每个Method检查结束时,可以正常的被调用到? 放在 visitCode方法后.
         //事后处理.检查有多少正常处理的catch块.
 //        int i = 0;
-        if (tryCatchAreaMap.isEmpty()) {
+        if (TRY_CATCH_AREA_MAP.isEmpty()) {
             return;
         }
-        for (TryCatchArea tca : tryCatchAreaMap.values()) {
+        for (TryCatchArea tca : TRY_CATCH_AREA_MAP.values()) {
             if (!tca.processed) {
                 //未进行处理,记录bug.
 
@@ -104,6 +107,7 @@ public class FindThrowException extends AbstractFindbugsPlugin {
      */
     @Override
     public void visitCode(Code code) {
+//        System.out.println("class is :" + getClassName());
         if (isNotDebugClass()) {
             return;
         }
@@ -116,7 +120,7 @@ public class FindThrowException extends AbstractFindbugsPlugin {
 //                break;
 //            }
 //        }
-        tryCatchAreaMap.clear();
+        TRY_CATCH_AREA_MAP.clear();
     }
 
     /**
@@ -135,7 +139,7 @@ public class FindThrowException extends AbstractFindbugsPlugin {
     /**
      * 检查是否有try-catch块.
      *
-     * 如果有就保存到{@link #tryCatchAreaMap}中.
+     * 如果有就保存到{@link #TRY_CATCH_AREA_MAP}中.
      *
      * @param code
      */
@@ -149,7 +153,7 @@ public class FindThrowException extends AbstractFindbugsPlugin {
                 CodeException ce = ces[i];
 //                System.out.println(String.format("%d:{from:%d,to:%d,handle:%d,type:%s} @ %s class %s", i, ce.getStartPC(), ce.getEndPC(), ce.getHandlerPC(), ce.getCatchType(), getMethodName(), code.getClass()));
                 TryCatchArea tca = createTCA(ce);
-                tryCatchAreaMap.put(tca.tryEnd, tca);
+                TRY_CATCH_AREA_MAP.put(tca.tryEnd, tca);
             }
 
         } else {
@@ -199,14 +203,21 @@ public class FindThrowException extends AbstractFindbugsPlugin {
             //TODO 非跳转点可能是finally块.如何可以正常识别?现在当有finally时,对应的catch块会被忽略.
         }
         //确认当前是否在try-catch块中.
-        TryCatchArea tca = findTryCathAreaByCatchLine(pc);
+        List<TryCatchArea> tcaList = findTryCathAreaByCatchLine(pc);
 
-        sawCatch(seen, tca);
+        /*
+        TODO 检查catch处理情况的规则目前还不是很完善.当多个catch嵌套时,没有明确处理抛出语句是针对哪个catch.
+        目前在多catch嵌套的情况下,只要有一个抛出,所有这些catch都视为正确处理了.
+         */
+        //遍历所有catch块.
+        for (TryCatchArea tca : tcaList) {
+            sawCatch(seen, tca);
+        }
 
     }
 
     private void sawCatch(int seen, TryCatchArea tca) {
-        currentTCA = tca;
+//        currentTCA = tca;
         int pc = getPC();
         /*
         检查每一行,是否在catch中,
@@ -243,50 +254,51 @@ public class FindThrowException extends AbstractFindbugsPlugin {
         return tca;
     }
 
-    /**
-     *
-     * 检查当前行是否在try-catch块中.
-     *
-     * @param lineNumber
-     * @return 如果是,则返回对应的try-catch块.
-     */
-    private TryCatchArea findTryCathArea(LineNumber lineNumber) {
-        int ln = lineNumber.getLineNumber();
-        return findTryCathAreaByCatchLine(ln);
-    }
-
+//    /**
+//     *
+//     * 检查当前行是否在try-catch块中.
+//     *
+//     * @param lineNumber
+//     * @return 如果是,则返回对应的try-catch块.
+//     */
+//    private TryCatchArea findTryCathArea(LineNumber lineNumber) {
+//        int ln = lineNumber.getLineNumber();
+//        return findTryCathAreaByCatchLine(ln);
+//    }
     /**
      * 根据catch行号查询try-catch块.
      *
      *
      * @param ln 行号.
-     * @return 当ln在某一个try-catch块的catch区域中时,返回该try-catch块.否则返回null.
+     * @return
+     * 当ln在某一个try-catch块的catch区域中时,返回该try-catch块.否则返回null.当有多个try-catch嵌套时,会返回多个.
      * @see TryCatchArea#inCatch(int)
      */
-    private TryCatchArea findTryCathAreaByCatchLine(int ln) {
-        //检查是否在当前的tca中.
-        if (currentTCA != null) {
+    private List<TryCatchArea> findTryCathAreaByCatchLine(int ln) {
+        List<TryCatchArea> list = new ArrayList<>();
+//        //检查是否在当前的tca中.
+//        if (currentTCA != null) {
+//
+//            if (currentTCA.inCatch(ln)) {
+//                list.add(currentTCA);
+//            }
+//        }
 
-            if (currentTCA.inCatch(ln)) {
-                return currentTCA;
+        if (!TRY_CATCH_AREA_MAP.isEmpty()) {
+            for (TryCatchArea tca : TRY_CATCH_AREA_MAP.values()) {
+                if (tca.inCatch(ln)) {
+//                    return tca;
+                    list.add(tca);
+                }
             }
         }
 
-        if (tryCatchAreaMap.isEmpty()) {
-            return null;
-        }
-
-        for (TryCatchArea tca : tryCatchAreaMap.values()) {
-            if (tca.inCatch(ln)) {
-                return tca;
-            }
-        }
-        return null;
+        return list;
 
     }
 
     private TryCatchArea findTryCathAreaByTryEnd(int lineNumber) {
-        return tryCatchAreaMap.get(lineNumber);
+        return TRY_CATCH_AREA_MAP.get(lineNumber);
     }
 
     class TryCatchArea {
